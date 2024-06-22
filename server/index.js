@@ -8,6 +8,23 @@ const port = process.env.PORT || 3000;
 
 const server = http.createServer(app);
 
+app.use((req, res, next) => {
+  // Set CORS headers
+  res.setHeader("Access-Control-Allow-Origin", "*"); // Allow all origins
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PUT, DELETE, OPTIONS"
+  ); // Allow specific HTTP methods
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization"); // Allow specific headers
+
+  // Handle preflight requests
+  if (req.method === "OPTIONS") {
+    res.sendStatus(200);
+  } else {
+    next();
+  }
+});
+
 const io = new Server(server, {
   cors: {
     origin: "https://freetambolagame.vercel.app", // Adjust as per your frontend origin
