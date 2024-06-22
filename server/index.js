@@ -6,8 +6,10 @@ import http from "http";
 const app = express();
 const port = process.env.PORT || 3000;
 
+// Create an HTTP server using Express app
 const server = http.createServer(app);
 
+// CORS middleware setup
 app.use(
   cors({
     origin: "https://freetambolagame.vercel.app",
@@ -16,20 +18,24 @@ app.use(
   })
 );
 
+// Route handler for the root path
 app.get("/", (req, res) => {
-  res.send("Server is up and running!");
+  res.send("Server is up and running!"); // Replace with your desired response
 });
 
+// Initialize Socket.IO with the HTTP server
 const io = new Server(server, {
   cors: {
-    origin: "https://freetambolagame.vercel.app", // Adjust as per your frontend origin
+    origin: "https://freetambolagame.vercel.app",
     methods: ["GET", "POST"],
     credentials: true,
   },
 });
 
+// Active rooms object to store room information
 const activeRooms = {};
 
+// Socket.IO event handlers
 io.on("connection", (socket) => {
   console.log("user connected", socket.id);
 
@@ -72,8 +78,7 @@ io.on("connection", (socket) => {
     io.to(room).emit("game-started", room);
   });
 
-  //number sharing
-
+  // Number sharing
   socket.on("generate-number", ({ room, no }) => {
     socket.join(room);
     io.to(room).emit("number-announced", no);
@@ -101,8 +106,7 @@ io.on("connection", (socket) => {
   });
 });
 
-app.use(cors());
-
+// Start the HTTP server
 server.listen(port, () => {
-  console.log("server is running on : ", port);
+  console.log(`Server is running on port ${port}`);
 });
