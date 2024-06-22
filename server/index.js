@@ -10,8 +10,9 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173", // Adjust as per your frontend origin
+    origin: "https://freetambolagame.vercel.app", // Adjust as per your frontend origin
     methods: ["GET", "POST"],
+    credentials: true,
   },
 });
 
