@@ -2,6 +2,12 @@ import express from "express";
 import { Server } from "socket.io";
 import cors from "cors";
 import http from "http";
+import path from "path";
+import { fileURLToPath } from "url";
+
+// Resolve __dirname for ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -14,6 +20,12 @@ const io = new Server(server, {
     methods: ["GET", "POST"],
     credentials: true,
   },
+});
+
+app.use(express.static(path.resolve(__dirname, "client", "dist")));
+
+app.get("/", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "client", "dist", "index.html"));
 });
 
 const activeRooms = {};
