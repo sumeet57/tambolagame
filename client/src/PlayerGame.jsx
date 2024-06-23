@@ -578,7 +578,7 @@ const PlayerGame = () => {
               onClick={() => handleCheck("l2", number)}
               key={`row2-${index}`}
               className={`elem elem-${number} ${
-                window.innerWidth < 400 ? "p-[5px] text-sm" : "p-2"
+                window.innerWidth < 350 ? "p-[5px] text-sm" : "p-2"
               } text-center border select-none border-gray-400 ${
                 number ? "bg-zinc-100" : "bg-black"
               }`}
@@ -593,7 +593,7 @@ const PlayerGame = () => {
               onClick={() => handleCheck("l3", number)}
               key={`row3-${index}`}
               className={`elem elem-${number} ${
-                window.innerWidth < 400 ? "p-[5px] text-sm" : "p-2"
+                window.innerWidth < 350 ? "p-[5px] text-sm" : "p-2"
               } text-center border select-none border-gray-400 ${
                 number ? "bg-zinc-100" : "bg-black"
               }`}
@@ -605,7 +605,7 @@ const PlayerGame = () => {
         <div className="flex flex-wrap pt-4 gap-4 justify-center items-center">
           <div
             onClick={e5click}
-            className={`cursor-pointer ${
+            className={` select-none ${
               allclaim.includes("e5")
                 ? "cursor-not-allowed brightness-50 blur-[4px]"
                 : "cursor-pointer brightness-100 blur-[0px]"
@@ -617,10 +617,10 @@ const PlayerGame = () => {
           </div>
           <div
             onClick={e7click}
-            className={` cursor-pointer${
+            className={`select-none${
               allclaim.includes("e7")
                 ? "cursor-not-allowed brightness-50 blur-[4px]"
-                : ""
+                : "cursor-pointer brightness-100 blur-[0px]"
             }`}
           >
             <p className="text-white bg-zinc-900 p-2 pl-4 pr-4 font-semibold capitalize rounded-lg">
@@ -629,7 +629,7 @@ const PlayerGame = () => {
           </div>
           <div
             onClick={fclick}
-            className={`cursor-pointer ${
+            className={`select-none ${
               allclaim.includes("f")
                 ? "cursor-not-allowed brightness-50 blur-[4px]"
                 : "cursor-pointer brightness-100 blur-[0px]"
@@ -641,7 +641,7 @@ const PlayerGame = () => {
           </div>
           <div
             onClick={mclick}
-            className={` cursor-pointer ${
+            className={` select-none ${
               allclaim.includes("m")
                 ? "cursor-not-allowed brightness-50 blur-[4px]"
                 : "cursor-pointer brightness-100 blur-[0px]"
@@ -653,7 +653,7 @@ const PlayerGame = () => {
           </div>
           <div
             onClick={lclick}
-            className={`cursor-pointer ${
+            className={`select-none ${
               allclaim.includes("l")
                 ? "cursor-not-allowed brightness-50 blur-[4px]"
                 : "cursor-pointer brightness-100 blur-[0px]"
@@ -665,7 +665,7 @@ const PlayerGame = () => {
           </div>
           <div
             onClick={mnclick}
-            className={` cursor-pointer
+            className={` select-none
                 ${
                   allclaim.includes("mn")
                     ? "cursor-not-allowed brightness-50 blur-[4px]"
@@ -679,7 +679,7 @@ const PlayerGame = () => {
           </div>
           <div
             onClick={cclick}
-            className={`cursor-pointer ${
+            className={`select-none ${
               allclaim.includes("c")
                 ? "cursor-not-allowed brightness-50 blur-[4px]"
                 : "cursor-pointer brightness-100 blur-[0px]"
@@ -715,7 +715,7 @@ const PlayerGame = () => {
           </div>
           <div
             onClick={one43click}
-            className={` cursor-pointer ${
+            className={` select-none ${
               allclaim.includes("onefourthree")
                 ? "cursor-not-allowed brightness-50 blur-[4px]"
                 : "cursor-pointer brightness-100 blur-[0px]"
@@ -727,7 +727,7 @@ const PlayerGame = () => {
           </div>
           <div
             onClick={pclick}
-            className={` cursor-pointer ${
+            className={` select-none${
               allclaim.includes("p")
                 ? "cursor-not-allowed brightness-50 blur-[4px]"
                 : "cursor-pointer brightness-100 blur-[0px]"
@@ -750,7 +750,9 @@ const PlayerGame = () => {
       <div
         className={`textpop ${
           message ? "block" : "hidden"
-        } 1w-[500px] h-[50px] fixed flex p-4 font-bold capitalize rounded-2xl text-black justify-center items-center bg-slate-200/80 top-[70%] left-[50%] -translate-x-[50%] -translate-y-[50%] m-4 text-center`}
+        } w-fit h-[50px] fixed flex ${
+          window.innerWidth < 500 ? "p-2" : "p-4"
+        } font-bold capitalize rounded-2xl text-black justify-center items-center bg-slate-200/80 top-[70%] left-[50%] -translate-x-[50%] -translate-y-[50%] m-4 text-center`}
       >
         {message}
       </div>
