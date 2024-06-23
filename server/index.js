@@ -2,6 +2,7 @@ import express from "express";
 import { Server } from "socket.io";
 import cors from "cors";
 import http from "http";
+import path from "path";
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -12,24 +13,32 @@ const server = http.createServer(app);
 // CORS middleware setup
 app.use(
   cors({
-    origin: "https://freetambolagame.vercel.app",
+    origin: "http://localhost:5173",
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
 // Route handler for the root path
-app.get("/", (req, res) => {
-  res.send("Server is up and running!"); // Replace with your desired response
-});
+// app.get("/", (req, res) => {
+//   res.send("Server is up and running!"); // Replace with your desired response
+// });
 
 // Initialize Socket.IO with the HTTP server
 const io = new Server(server, {
   cors: {
-    origin: "https://freetambolagame.vercel.app",
+    origin: "http://localhost:5173",
     methods: ["GET", "POST"],
     credentials: true,
   },
+});
+
+const __dirname = path.resolve();
+
+app.use(express.static(path.join(__dirname, "./client/dist")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
 });
 
 // Active rooms object to store room information

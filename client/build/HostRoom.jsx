@@ -38,7 +38,7 @@ const HostRoom = () => {
 
   return (
     <div className="w-full block text-center">
-      <div className="text text-2xl w-full h-fit p-2 bg-zinc-600 scale-95 flex justify-between">
+      <div className="text w-full h-fit p-2 bg-zinc-600 scale-95 flex justify-between">
         <h2 className="font-medium text-4xl p-2 uppercase">host room</h2>
         <div className="flex justify-center items-center">
           <p className="font-medium text-4xl p-2 uppercase">
@@ -49,7 +49,7 @@ const HostRoom = () => {
           </button>
         </div>
       </div>
-      <div className="w-full border-2 text-2xl relative border-white scale-95 mt-2 h-[300px] p-4 flex flex-wrap whitespace-normal">
+      <div className="w-full border-2 relative border-white scale-95 mt-2 h-[300px] p-4 flex flex-wrap whitespace-normal">
         {players.map((playerName, index) => (
           <p
             className="bg-zinc-600 p-2 w-auto h-fit text-xl capitalize rounded-xl m-2"

@@ -40,9 +40,9 @@ const PlayerRoom = () => {
   return (
     <div className="w-full block text-center">
       <div className="text w-full h-fit p-2 bg-zinc-600 scale-95 flex justify-between">
-        <h2 className="font-medium text-2xl p-2 uppercase">players room</h2>
+        <h2 className="font-medium text-4xl p-2 uppercase">players room</h2>
         <div className="flex justify-center items-center">
-          <p className="font-medium text-2xl p-2 uppercase">pass :</p>
+          <p className="font-medium text-4xl p-2 uppercase">pass :</p>
           <button className="bg-blue-400 p-1 uppercase font-medium mr-2 rounded-xl text-xl">
             share
           </button>
