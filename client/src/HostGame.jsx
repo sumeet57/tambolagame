@@ -10,6 +10,7 @@ import cimg from "./assets/c.png";
 import simg from "./assets/s.png";
 import mnimg from "./assets/middleno.png";
 import fullimg from "./assets/full.png";
+import "./extra.css";
 
 const HostGame = () => {
   const location = useLocation();
@@ -575,14 +576,14 @@ const HostGame = () => {
             </p>
           ))}
         </h2>
-        <div className="grid grid-cols-9 gap-1">
+        <div className="grid grid-cols-9 gap-[2px]">
           {ticket.row1.map((number, index) => (
             <div
               onClick={() => handleCheck("l1", number)}
               key={`row1-${index}`}
               className={`elem elem-${number} ${
                 window.innerWidth < 350 ? "p-[5px] text-sm" : "p-2"
-              } text-center border select-none border-gray-400 ${
+              } text-center border select-none  border-gray-400 ${
                 number ? "bg-zinc-100" : "bg-black"
               }`}
             >
@@ -590,14 +591,14 @@ const HostGame = () => {
             </div>
           ))}
         </div>
-        <div className="grid grid-cols-9 gap-1 mt-1">
+        <div className="grid grid-cols-9 gap-[2px] mt-[2px]">
           {ticket.row2.map((number, index) => (
             <div
               onClick={() => handleCheck("l2", number)}
               key={`row2-${index}`}
               className={`elem elem-${number} ${
                 window.innerWidth < 350 ? "p-[5px] text-sm" : "p-2"
-              } text-center border select-none border-gray-400 ${
+              } text-center border select-none focus:scale-95 border-gray-400 ${
                 number ? "bg-zinc-100" : "bg-black"
               }`}
             >
@@ -605,14 +606,14 @@ const HostGame = () => {
             </div>
           ))}
         </div>
-        <div className="grid grid-cols-9 gap-1 mt-1">
+        <div className="grid grid-cols-9 gap-[2px] mt-[2px]">
           {ticket.row3.map((number, index) => (
             <div
               onClick={() => handleCheck("l3", number)}
               key={`row3-${index}`}
               className={`elem elem-${number} ${
                 window.innerWidth < 350 ? "p-[5px] text-sm" : "p-2"
-              } text-center border select-none border-gray-400 ${
+              } text-center border select-none focus:scale-95 border-gray-400 ${
                 number ? "bg-zinc-100" : "bg-black"
               }`}
             >
@@ -768,8 +769,8 @@ const HostGame = () => {
       <div
         className={`textpop ${
           message ? "block" : "hidden"
-        } w-fit h-[50px] fixed flex ${
-          window.innerWidth < 500 ? "p-2" : "p-4"
+        } w-fit h-fit fixed flex ${
+          window.innerWidth < 500 ? "p-2 w-full h-fit" : "p-4"
         } font-bold capitalize rounded-2xl text-black justify-center items-center bg-slate-200/80 top-[75%] left-[50%] -translate-x-[50%] -translate-y-[50%] m-4 text-center`}
       >
         {message}
