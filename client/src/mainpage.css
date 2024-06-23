@@ -72,3 +72,6 @@ p {
     font-size: 15vw;
   }
 }
+* {
+  user-select: none;
+}
