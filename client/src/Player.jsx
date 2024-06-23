@@ -57,7 +57,7 @@ const Player = () => {
         <div className="cont flex justify-center items-center flex-col gap-5">
           <input
             value={name}
-            className="w-[300px] h-[50px] text-black bg-zinc-300 rounded-md p-1 text-base font-medium capitalize pl-2"
+            className="w-[300px] h-[50px] text-black bg-white rounded-md p-1 text-base font-medium pl-2"
             type="text"
             placeholder="Enter your name"
             maxLength={20}
@@ -67,7 +67,7 @@ const Player = () => {
           />
           <input
             value={pass}
-            className="w-[300px] h-[50px] text-black bg-zinc-300 rounded-md p-1 text-base font-medium capitalize pl-2"
+            className="w-[300px] h-[50px] text-black bg-white rounded-md p-1 text-base font-medium pl-2"
             placeholder="Enter room password"
             type="text"
             maxLength={10}
@@ -77,7 +77,7 @@ const Player = () => {
           />
           <button
             onClick={handleJoinClick}
-            className="text-base text-black font-semibold uppercase pl-4 pr-4 p-2 bg-white rounded-lg"
+            className="text-base text-black uppercase pl-4 pr-4 p-2 bg-blue-300 font-bold rounded-lg"
           >
             Join Room
           </button>

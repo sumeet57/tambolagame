@@ -37,15 +37,26 @@ const HostRoom = () => {
   };
 
   return (
-    <div className="w-full block text-center">
-      <div className="text text-2xl w-full h-fit p-2 bg-zinc-600 scale-95 flex justify-between">
-        <h2 className="font-medium text-4xl p-2 uppercase">host room</h2>
+    <div
+      className={` ${
+        window.innerWidth <= 700 ? "w-[90%]" : "w-[50%]"
+      } block text-center`}
+    >
+      <div
+        className={`text text-xl ${
+          window.innerWidth < 450 ? "text-base" : "text-xl"
+        } w-full h-fit p-2 bg-zinc-600 scale-95 flex justify-between`}
+      >
+        <h2 className="font-medium p-2 uppercase">host room</h2>
         <div className="flex justify-center items-center">
-          <p className="font-medium text-4xl p-2 uppercase">
-            pass : {roomPass}
-          </p>
-          <button className="bg-blue-400 p-1 uppercase font-medium mr-2 rounded-xl text-xl">
-            share
+          <p className="font-medium p-2 ">pass : {roomPass}</p>
+          <button className="bg-white text-black pl-4 pr-4 font-bold p-1 uppercase mr-2 rounded-3xl text-base">
+            <a
+              class="wp-share"
+              href={`whatsapp://send?text=Play Tambola with me, To Join us COPY PASSWORD and click on the LINK. Password : ${roomPass}, Link :  https://tambolagame.onrender.com/player`}
+            >
+              Share
+            </a>
           </button>
         </div>
       </div>

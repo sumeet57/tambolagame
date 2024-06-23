@@ -14,6 +14,7 @@ const server = http.createServer(app);
 app.use(
   cors({
     origin: "https://tambolagame.onrender.com/",
+    // origin: "http://localhost:5173",
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
@@ -28,6 +29,7 @@ app.use(
 const io = new Server(server, {
   cors: {
     origin: "https://tambolagame.onrender.com/",
+    // origin: "http://localhost:5173",
     methods: ["GET", "POST"],
     credentials: true,
   },
@@ -95,6 +97,11 @@ io.on("connection", (socket) => {
 
   socket.on("claimfromplayer", (data) => {
     io.emit("claimcome", data); // Broadcast to all clients
+  });
+
+  socket.on("sm", (data) => {
+    console.log(data.message);
+    io.emit("rm", data); // Broadcast the 'rm' event with the received data to all clients
   });
 
   // Socket disconnect

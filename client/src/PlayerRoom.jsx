@@ -38,17 +38,19 @@ const PlayerRoom = () => {
   // socket.off("update-players");
 
   return (
-    <div className="w-full block text-center">
-      <div className="text w-full h-fit p-2 bg-zinc-600 scale-95 flex justify-between">
-        <h2 className="font-medium text-2xl p-2 uppercase">players room</h2>
-        <div className="flex justify-center items-center">
-          <p className="font-medium text-2xl p-2 uppercase">pass :</p>
-          <button className="bg-blue-400 p-1 uppercase font-medium mr-2 rounded-xl text-xl">
-            share
-          </button>
-        </div>
+    <div
+      className={` ${
+        window.innerWidth <= 700 ? "w-[90%]" : "w-[50%]"
+      } block text-center`}
+    >
+      <div
+        className={`text text-xl ${
+          window.innerWidth < 450 ? "text-base" : "text-xl"
+        } w-full h-fit p-2 bg-zinc-600 scale-95 flex justify-between`}
+      >
+        <h2 className="font-medium p-2 uppercase">player room</h2>
       </div>
-      <div className="w-full border-2 relative border-white scale-95 mt-2 h-[300px] p-4 flex flex-wrap whitespace-normal">
+      <div className="w-full border-2 text-2xl relative border-white scale-95 mt-2 h-[300px] p-4 flex flex-wrap whitespace-normal">
         {players.map((playerName, index) => (
           <p
             className="bg-zinc-600 p-2 w-auto h-fit text-xl capitalize rounded-xl m-2"
@@ -61,6 +63,7 @@ const PlayerRoom = () => {
           waiting for players...
         </p>
       </div>
+      <h1 className="capitalize p-2 text-xl">host will start the game</h1>
     </div>
   );
 };

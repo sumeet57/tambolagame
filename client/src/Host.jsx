@@ -41,9 +41,9 @@ const Host = () => {
         <div className="cont flex justify-center items-center flex-col gap-5">
           <input
             value={name}
-            className="w-[300px] h-[50px] text-black bg-zinc-300 rounded-md p-1 text-base font-medium capitalize pl-2"
+            className="w-[300px] h-[50px] text-black bg-white rounded-md p-1 text-base font-medium pl-2"
             type="text"
-            placeholder="Enter your name"
+            placeholder="Enter Your Name"
             maxLength={20}
             onChange={(e) => {
               setName(e.target.value);
@@ -51,7 +51,7 @@ const Host = () => {
           />
           <input
             value={pass}
-            className="w-[300px] h-[50px] text-black bg-zinc-300 rounded-md p-1 text-base font-medium capitalize pl-2"
+            className="w-[300px] h-[50px] text-black bg-white rounded-md p-1 text-base font-medium pl-2"
             placeholder="Create room password"
             type="text"
             maxLength={10}
@@ -61,9 +61,9 @@ const Host = () => {
           />
           <button
             onClick={handleCreateRoom}
-            className="text-base font-semibold uppercase pl-2 pr-2 p-2 bg-white text-black rounded-lg"
+            className="text-base font-semibold uppercase pl-2 pr-2 p-2 bg-green-300 text-black rounded-lg"
           >
-            Create
+            Create room
           </button>
           {error && <p className="text-red-500">{error}</p>}
         </div>

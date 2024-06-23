@@ -1,0 +1,6 @@
+This favicon was generated using the following font:
+
+- Font Title: Alkalami
+- Font Author: Copyright (c) SIL International, 2015-2023
+- Font Source: https://fonts.gstatic.com/s/alkalami/v7/zOL_4pfDmqRL95WXi5eLw8BMuvhH.ttf
+- Font License: SIL Open Font License, 1.1 (http://scripts.sil.org/OFL))
