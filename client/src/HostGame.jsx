@@ -636,7 +636,7 @@ const HostGame = () => {
           </div>
           <div
             onClick={e7click}
-            className={`select-none${
+            className={` select-none ${
               allclaim.includes("e7")
                 ? "cursor-not-allowed brightness-50 blur-[4px]"
                 : "cursor-pointer brightness-100 blur-[0px]"
