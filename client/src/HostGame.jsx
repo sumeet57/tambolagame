@@ -531,7 +531,7 @@ const HostGame = () => {
   return (
     <div
       className={`${
-        window.innerWidth >= 700 ? "w-[45%]" : "w-[90%]"
+        window.innerWidth >= 700 ? "w-[45%]" : "w-[95%]"
       } h-[screen] flex justify-center items-center flex-col`}
     >
       <div className={` w-[300px] h-auto bg-zinc-500 rounded-md m-4`}>
@@ -684,7 +684,7 @@ const HostGame = () => {
           </div>
           <div
             onClick={mnclick}
-            className={` select-none
+            className={` select-none 
                 ${
                   allclaim.includes("mn")
                     ? "cursor-not-allowed brightness-50 blur-[4px]"
@@ -710,7 +710,7 @@ const HostGame = () => {
           </div>
           <div
             onClick={sclick}
-            className={` cursor-pointer ${
+            className={` select-none ${
               allclaim.includes("s")
                 ? "cursor-not-allowed brightness-50 blur-[4px]"
                 : "cursor-pointer brightness-100 blur-[0px]"
@@ -722,7 +722,7 @@ const HostGame = () => {
           </div>
           <div
             onClick={fullclick}
-            className={` cursor-pointer ${
+            className={` select-none ${
               allclaim.includes("full")
                 ? "cursor-not-allowed brightness-50 blur-[4px]"
                 : "cursor-pointer brightness-100 blur-[0px]"
@@ -746,7 +746,7 @@ const HostGame = () => {
           </div>
           <div
             onClick={pclick}
-            className={` select-none${
+            className={` select-none ${
               allclaim.includes("p")
                 ? "cursor-not-allowed brightness-50 blur-[4px]"
                 : "cursor-pointer brightness-100 blur-[0px]"
@@ -767,10 +767,8 @@ const HostGame = () => {
       </div>
 
       <div
-        className={`textpop ${
-          message ? "block" : "hidden"
-        } w-fit h-fit fixed flex ${
-          window.innerWidth < 500 ? "p-2 w-full h-fit" : "p-4"
+        className={`textpop ${message ? "block" : "hidden"} fixed flex ${
+          window.innerWidth < 500 ? "p-2 w-[450px] h-fit" : "p-4  w-fit h-fit"
         } font-bold capitalize rounded-2xl text-black justify-center items-center bg-slate-200/80 top-[75%] left-[50%] -translate-x-[50%] -translate-y-[50%] m-4 text-center`}
       >
         {message}
