@@ -546,11 +546,11 @@ const PlayerGame = () => {
         ))}
       </div>
       <div
-        className={`player-game max-h-[350px] overflow-auto bg-zinc-700 ${
+        className={`player-game max-h-[450px] overflow-auto bg-zinc-700 ${
           window.innerWidth < 350 ? "p-1" : "p-2"
         }${window.innerWidth > 550 ? "p-4" : "p-2"} text-black rounded-xl`}
       >
-        <h2 className="font-medium mb-4 flex overflow-auto items-center pb-4">
+        <h2 className="font-medium mb-1 flex overflow-auto items-center pb-1">
           {playerData.map((e) => (
             <p className="bg-white text-black p-2 capitalize rounded-lg ml-2">
               {e.player} : {e.points}
@@ -740,8 +740,6 @@ const PlayerGame = () => {
         </div>
         {claims.length > 0 && (
           <div className="mt-4 bg-green-200 p-2 max-h-[100px] overflow-auto rounded flex flex-col-reverse">
-            <h3 className="text-lg font-bold">Claims:</h3>
-
             {claims.map((claim, index) => (
               <li key={index}>{claim}</li>
             ))}
