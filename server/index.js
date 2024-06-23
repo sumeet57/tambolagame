@@ -13,7 +13,7 @@ const server = http.createServer(app);
 // CORS middleware setup
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "https://tambolagame.onrender.com/",
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
@@ -27,7 +27,7 @@ app.use(
 // Initialize Socket.IO with the HTTP server
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: "https://tambolagame.onrender.com/",
     methods: ["GET", "POST"],
     credentials: true,
   },
