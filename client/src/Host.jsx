@@ -36,7 +36,7 @@ const Host = () => {
   };
 
   return (
-    <div className="bg-black w-full h-screen flex justify-center items-center">
+    <div className="bg-teal-100 w-full h-screen flex justify-center items-center">
       {location.pathname === "/host" ? (
         <div className="cont flex justify-center items-center flex-col gap-5">
           <input

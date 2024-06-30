@@ -41,19 +41,19 @@ const PlayerRoom = () => {
     <div
       className={` ${
         window.innerWidth <= 700 ? "w-[90%]" : "w-[50%]"
-      } block text-center`}
+      } block text-center bg-black rounded-2xl`}
     >
       <div
         className={`text text-xl ${
           window.innerWidth < 450 ? "text-base" : "text-xl"
-        } w-full h-fit p-2 bg-zinc-600 scale-95 flex justify-between`}
+        } w-full h-fit p-2 scale-95 flex justify-between`}
       >
         <h2 className="font-medium p-2 uppercase">player room</h2>
       </div>
       <div className="w-full border-2 text-2xl relative border-white scale-95 mt-2 h-[300px] p-4 flex flex-wrap whitespace-normal">
         {players.map((playerName, index) => (
           <p
-            className="bg-zinc-600 p-2 w-auto h-fit text-xl capitalize rounded-xl m-2"
+            className="bg-yellow-300 text-black p-2 w-auto h-fit text-lg capitalize rounded-xl m-2"
             key={index}
           >
             {playerName}

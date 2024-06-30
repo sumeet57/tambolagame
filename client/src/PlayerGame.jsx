@@ -10,7 +10,10 @@ import cimg from "./assets/c.png";
 import simg from "./assets/s.png";
 import mnimg from "./assets/middleno.png";
 import fullimg from "./assets/full.png";
+import one43img from "./assets/143.png";
+import pimg from "./assets/pimg.png";
 import "./extra.css";
+import { IoMdClose } from "react-icons/io";
 
 // Generate random numbers between 1 and 90 (inclusive) for Tambola ticket
 function generateRandomNumbers(count) {
@@ -134,20 +137,28 @@ const PlayerGame = () => {
   const [claims, setClaims] = useState([]); // State for claims made
   const [playerData, setPlayerData] = useState([]); // State for player data
   const [allclaim, setAllClaim] = useState([]); // State for all claims
-
+  const [click, setclick] = useState(0);
   // const [allclaim, setAllClaim] = useState([]);
 
   const [message, setmessage] = useState("");
   const [minput, setminput] = useState("");
 
   const sendbt = () => {
-    socket.emit("sm", { message: minput, n: name });
-    setminput("");
+    if (click === 0) {
+      socket.emit("sm", { message: minput, n: name });
+      setminput("");
+      timeoutmsg();
+    }
   };
 
   useEffect(() => {
     const handleRmEvent = (data) => {
-      setmessage(data.n + " : " + data.message); // Update the message state with the new data
+      setmessage(
+        <span>
+          <span style={{ color: "red", fontWeight: "400" }}>{data.n}</span> :{" "}
+          {data.message}
+        </span>
+      ); // Update the message state with the new data
       setTimeout(() => {
         setmessage(""); // Clear the message after 4 seconds
       }, 3000);
@@ -222,7 +233,6 @@ const PlayerGame = () => {
       });
     }
   };
-
   useEffect(() => {
     socket.on("claimcome", (data) => {
       // Update allclaim state with the new claim data
@@ -260,17 +270,13 @@ const PlayerGame = () => {
   }, [playerData]); // Include playerData in dependencies array if it's used inside useEffect
 
   const fclick = () => {
-    console.log("Clicked on First Line pattern."); // Check if the function is being called
     const { l1, l2, l3 } = check;
-    console.log("l1:", l1, "line1:", line1); // Check the values of l1 and line1
     if (
       l1.length >= line1.length &&
       !claims.includes("First Line Complete : 10 points") &&
       !allclaim.includes("f")
     ) {
-      console.log("Pattern condition met, processing..."); // Check if the condition to claim is met
       const updatedPoints = points + 10;
-      console.log("Updated points:", updatedPoints); // Check the updated points value
       setClaims((prevClaims) => [
         ...prevClaims,
         "First Line Complete : 10 points",
@@ -282,8 +288,6 @@ const PlayerGame = () => {
         n: name,
         p: updatedPoints,
       });
-    } else {
-      console.log("Pattern condition not met."); // Check if this block is reached when condition is false
     }
   };
 
@@ -447,13 +451,13 @@ const PlayerGame = () => {
     if (
       l1.length + l2.length + l3.length ===
         line1.length + line2.length + line3.length &&
-      !claims.includes("Full House Complete : 50 points") &&
+      !claims.includes("Full House Complete : 30 points") &&
       !allclaim.includes("full")
     ) {
-      const updatedPoints = points + 50;
+      const updatedPoints = points + 30;
       setClaims((prevClaims) => [
         ...prevClaims,
-        "Full House Complete : 50 points",
+        "Full House Complete : 30 points",
       ]);
       setAllClaim((prevAllClaim) => [...prevAllClaim, "full"]);
       socket.emit("claimfromplayer", {
@@ -509,14 +513,34 @@ const PlayerGame = () => {
     }
   };
   const sortedPlayers = [...playerData].sort((a, b) => b.points - a.points);
+  const timeoutmsg = () => {
+    setclick(1);
+    setTimeout(() => {
+      setclick(0);
+    }, 5000);
+  };
 
+  const inbuildmsg = (e) => {
+    if (click === 0) {
+      setminput(e);
+      socket.emit("sm", { message: e, n: name });
+      setminput("");
+      timeoutmsg();
+    }
+  };
   return (
     <div
       className={`${
         window.innerWidth >= 700 ? "w-[45%]" : "w-[95%]"
       } h-[screen] flex justify-center items-center flex-col`}
     >
-      <div className={` w-[300px] h-auto bg-zinc-500 rounded-md m-4`}>
+      {/* type message component */}
+
+      <div
+        className={`${
+          window.innerWidth >= 700 ? "w-[100%]" : "w-[100%]"
+        } h-auto bg-zinc-500 rounded-md m-4`}
+      >
         <input
           value={minput}
           maxLength={25}
@@ -529,11 +553,59 @@ const PlayerGame = () => {
         />
         <button
           onClick={sendbt}
-          className="w-[18%] h-[40px] p-2 text-xs uppercase font-medium"
+          className={`w-[18%] h-[40px] p-2 text-xs uppercase font-medium
+            ${click == 1 ? "cursor-not-allowed blur-[2px]" : ""}
+            `}
         >
           send
         </button>
       </div>
+
+      {/* prebuild select msg component  */}
+
+      <div
+        style={{ width: "100%", overflowX: "auto", whiteSpace: "nowrap" }}
+        className="flex p-2 bg-yellow-200 rounded-lg"
+      >
+        {[
+          "hii😊",
+          "nice game❤️",
+          "im winner😎",
+          "kya bolte maam😏",
+          "im king👑",
+          "women☕",
+          "ego on top🙋‍♂️",
+          "abusive🤬",
+          "angry-man😡",
+          "bored🥱",
+          "luck=100🤞",
+          "ha meri jaan🐽",
+          "cancel BTS❌",
+        ].map((e) => (
+          <span
+            onClick={() => {
+              inbuildmsg(e);
+            }}
+            key={e}
+            className={`
+              ${
+                click == 1
+                  ? "cursor-not-allowed active:scale-[1] blur-[2px]"
+                  : ""
+              }
+              ${click == 0 ? "cursor-pointer" : ""}
+              p-1 m-1 bg-white active:scale-[0.9] border-black border-2 text-black rounded-md outline-none capitalize font-medium`}
+          >
+            {e}
+          </span>
+        ))}
+      </div>
+      <h2 className="text-red-700 font-bold uppercase text-base">
+        there is a 5 sec timeout to send msg
+      </h2>
+
+      {/* number from server */}
+
       <div className="numbers w-full bg-zinc-700 pt-2 pb-2 mb-4 rounded-xl flex flex-row flex-nowrap overflow-x-scroll">
         {numbers.map((e, index) => (
           <p
@@ -546,18 +618,37 @@ const PlayerGame = () => {
           </p>
         ))}
       </div>
+
+      {/* player / game /click */}
+
       <div
-        className={`player-game max-h-[450px] overflow-auto bg-zinc-700 ${
+        className={`player-game w-full max-h-[450px] overflow-auto bg-yellow-100 ${
           window.innerWidth < 350 ? "p-1" : "p-2"
         }${window.innerWidth > 550 ? "p-4" : "p-2"} text-black rounded-xl`}
       >
-        <h2 className="font-medium mb-1 flex overflow-auto items-center pb-1">
-          {playerData.map((e) => (
-            <p className="bg-white text-black p-2 capitalize rounded-lg ml-2">
-              {e.player} : {e.points}
-            </p>
-          ))}
-        </h2>
+        <div
+          style={{
+            width: "100%",
+            overflowX: "auto",
+          }}
+        >
+          <div
+            style={{
+              display: "inline-block",
+              whiteSpace: "nowrap",
+            }}
+            className="font-medium mt-2 mb-2 ml-1 mr-1 pb-1"
+          >
+            {playerData.map((e, index) => (
+              <p
+                key={index}
+                className="bg-white text-black p-2 capitalize inline-block rounded-lg ml-2"
+              >
+                {e.player} : {e.points}
+              </p>
+            ))}
+          </div>
+        </div>
         <div className="grid grid-cols-9 gap-[2px]">
           {ticket.row1.map((number, index) => (
             <div
@@ -565,7 +656,7 @@ const PlayerGame = () => {
               key={`row1-${index}`}
               className={`elem elem-${number} ${
                 window.innerWidth < 350 ? "p-[5px] text-sm" : "p-2"
-              } text-center border select-none focus:scale-95 border-gray-400 ${
+              } text-center border select-none  border-gray-400 ${
                 number ? "bg-zinc-100" : "bg-black"
               }`}
             >
@@ -603,158 +694,244 @@ const PlayerGame = () => {
             </div>
           ))}
         </div>
-        <div className="flex flex-wrap pt-4 gap-4 justify-center items-center">
-          <div
-            onClick={e5click}
-            className={` select-none ${
-              allclaim.includes("e5")
-                ? "cursor-not-allowed brightness-50 blur-[4px]"
-                : "cursor-pointer brightness-100 blur-[0px]"
-            }`}
+
+        {/* claim menu pop up */}
+        <div>
+          <button
+            onClick={() => {
+              document.querySelector(".claimbox").style.display = "flex";
+              document.querySelector(".claimbox").style.opacity = 1;
+            }}
+            className="pt-2 pb-2 pl-4 pr-4 uppercase m-2 bg-yellow-400 font-bold rounded-xl active:scale-[0.9]"
           >
-            <p className="text-white bg-zinc-900 p-2 pl-4 pr-4 font-semibold capitalize rounded-lg">
-              early five
-            </p>
-          </div>
+            claim
+          </button>
           <div
-            onClick={e7click}
-            className={`select-none ${
-              allclaim.includes("e7")
-                ? "cursor-not-allowed brightness-50 blur-[4px]"
-                : "cursor-pointer brightness-100 blur-[0px]"
-            }`}
+            style={{ display: "none" }}
+            className={`claimbox
+              ${window.innerWidth > 700 ? "scale-50" : "scale-100"}
+              opacity-0 w-full min-h-fit flex pt-14 pb-4 pl-1 pr-1 bg-white fixed top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] flex-wrap gap-4 justify-center items-center transition-all duration-500 ease-linear`}
           >
-            <p className="text-white bg-zinc-900 p-2 pl-4 pr-4 font-semibold capitalize rounded-lg">
-              early seven
-            </p>
-          </div>
-          <div
-            onClick={fclick}
-            className={`select-none ${
-              allclaim.includes("f")
-                ? "cursor-not-allowed brightness-50 blur-[4px]"
-                : "cursor-pointer brightness-100 blur-[0px]"
-            }`}
-          >
-            <p className="text-white bg-zinc-900 p-2 pl-4 pr-4 font-semibold capitalize rounded-lg">
-              first line
-            </p>
-          </div>
-          <div
-            onClick={mclick}
-            className={` select-none ${
-              allclaim.includes("m")
-                ? "cursor-not-allowed brightness-50 blur-[4px]"
-                : "cursor-pointer brightness-100 blur-[0px]"
-            }`}
-          >
-            <p className="text-white bg-zinc-900 p-2 pl-4 pr-4 font-semibold capitalize rounded-lg">
-              middle line
-            </p>
-          </div>
-          <div
-            onClick={lclick}
-            className={`select-none ${
-              allclaim.includes("l")
-                ? "cursor-not-allowed brightness-50 blur-[4px]"
-                : "cursor-pointer brightness-100 blur-[0px]"
-            }`}
-          >
-            <p className="text-white bg-zinc-900 p-2 pl-4 pr-4 font-semibold capitalize rounded-lg">
-              last line
-            </p>
-          </div>
-          <div
-            onClick={mnclick}
-            className={` select-none 
-                ${
-                  allclaim.includes("mn")
-                    ? "cursor-not-allowed brightness-50 blur-[4px]"
-                    : "cursor-pointer brightness-100 blur-[0px]"
-                }
-                `}
-          >
-            <p className="text-white bg-zinc-900 p-2 pl-4 pr-4 font-semibold capitalize rounded-lg">
-              middle no
-            </p>
-          </div>
-          <div
-            onClick={cclick}
-            className={`select-none ${
-              allclaim.includes("c")
-                ? "cursor-not-allowed brightness-50 blur-[4px]"
-                : "cursor-pointer brightness-100 blur-[0px]"
-            }`}
-          >
-            <p className="text-white bg-zinc-900 p-2 pl-4 pr-4 font-semibold capitalize rounded-lg">
-              corner
-            </p>
-          </div>
-          <div
-            onClick={sclick}
-            className={` select-none ${
-              allclaim.includes("s")
-                ? "cursor-not-allowed brightness-50 blur-[4px]"
-                : "cursor-pointer brightness-100 blur-[0px]"
-            }`}
-          >
-            <p className="text-white bg-zinc-900 p-2 pl-4 pr-4 font-semibold capitalize rounded-lg">
-              star
-            </p>
-          </div>
-          <div
-            onClick={fullclick}
-            className={` select-none  ${
-              allclaim.includes("full")
-                ? "cursor-not-allowed brightness-50 blur-[4px]"
-                : "cursor-pointer brightness-100 blur-[0px]"
-            }`}
-          >
-            <p className="text-white bg-zinc-900 p-2 pl-4 pr-4 font-semibold capitalize rounded-lg">
-              full house
-            </p>
-          </div>
-          <div
-            onClick={one43click}
-            className={` select-none ${
-              allclaim.includes("onefourthree")
-                ? "cursor-not-allowed brightness-50 blur-[4px]"
-                : "cursor-pointer brightness-100 blur-[0px]"
-            }`}
-          >
-            <p className="text-white bg-zinc-900 p-2 pl-4 pr-4 font-semibold capitalize rounded-lg">
-              143
-            </p>
-          </div>
-          <div
-            onClick={pclick}
-            className={` select-none ${
-              allclaim.includes("p")
-                ? "cursor-not-allowed brightness-50 blur-[4px]"
-                : "cursor-pointer brightness-100 blur-[0px]"
-            }`}
-          >
-            <p className="text-white bg-zinc-900 p-2 pl-4 pr-4 font-semibold capitalize rounded-lg">
-              pyramid
-            </p>
+            <div
+              onClick={() => {
+                document.querySelector(".claimbox").style.opacity = 0;
+                document.querySelector(".claimbox").style.display = "none";
+              }}
+              className="absolute right-2 top-2 cursor-pointer active:scale-[0.9]"
+            >
+              <IoMdClose className="text-3xl" />
+            </div>
+            <div
+              onClick={e5click}
+              className={`select-none border-2 active:scale-[0.9] border-black w-[25%] h-fit ${
+                allclaim.includes("e5")
+                  ? "cursor-not-allowed brightness-50 blur-[4px]"
+                  : "cursor-pointer brightness-100 blur-[0px]"
+              }`}
+            >
+              <img
+                src={e5img}
+                className="w-full h-[60%] bg-slate-500 object-contain"
+                alt=""
+              />
+              <p className="text-[18px] w-fit text-center font-semibold capitalize rounded-lg">
+                early five
+              </p>
+            </div>
+            <div
+              onClick={e7click}
+              className={` select-none border-2 active:scale-[0.9] border-black w-[25%] h-fit ${
+                allclaim.includes("e7")
+                  ? "cursor-not-allowed brightness-50 blur-[4px]"
+                  : "cursor-pointer brightness-100 blur-[0px]"
+              }`}
+            >
+              <img
+                src={e7img}
+                className="w-full h-[60%] bg-slate-500 object-contain"
+                alt=""
+              />
+              <p className="text-[18px] w-fit text-center font-semibold capitalize rounded-lg">
+                early seven
+              </p>
+            </div>
+            <div
+              onClick={fclick}
+              className={` select-none border-2 active:scale-[0.9] border-black w-[25%] h-fit ${
+                allclaim.includes("f")
+                  ? "cursor-not-allowed brightness-50 blur-[4px]"
+                  : "cursor-pointer brightness-100 blur-[0px]"
+              }`}
+            >
+              <img
+                src={fimg}
+                className="w-full h-[60%] bg-slate-500 object-contain"
+                alt=""
+              />
+              <p className="text-[18px] w-fit text-center font-semibold capitalize rounded-lg">
+                first line
+              </p>
+            </div>
+            <div
+              onClick={mclick}
+              className={` select-none border-2 active:scale-[0.9] border-black w-[25%] h-fit ${
+                allclaim.includes("m")
+                  ? "cursor-not-allowed brightness-50 blur-[4px]"
+                  : "cursor-pointer brightness-100 blur-[0px]"
+              }`}
+            >
+              <img
+                src={mimg}
+                className="w-full h-[60%] bg-slate-500 object-contain"
+                alt=""
+              />
+              <p className="text-[18px] w-fit text-center font-semibold capitalize rounded-lg">
+                middle line
+              </p>
+            </div>
+            <div
+              onClick={lclick}
+              className={` select-none border-2 active:scale-[0.9] border-black w-[25%] h-fit ${
+                allclaim.includes("l")
+                  ? "cursor-not-allowed brightness-50 blur-[4px]"
+                  : "cursor-pointer brightness-100 blur-[0px]"
+              }`}
+            >
+              <img
+                src={limg}
+                className="w-full h-[60%] bg-slate-500 object-contain"
+                alt=""
+              />
+              <p className="text-[18px] w-fit text-center font-semibold capitalize rounded-lg">
+                last line
+              </p>
+            </div>
+            <div
+              onClick={mnclick}
+              className={` select-none border-2 active:scale-[0.9] border-black w-[25%] h-fit ${
+                allclaim.includes("mn")
+                  ? "cursor-not-allowed brightness-50 blur-[4px]"
+                  : "cursor-pointer brightness-100 blur-[0px]"
+              }`}
+            >
+              <img
+                src={mnimg}
+                className="w-full h-[60%] bg-slate-500 object-contain"
+                alt=""
+              />
+              <p className="text-[18px] w-fit text-center font-semibold capitalize rounded-lg">
+                middle no
+              </p>
+            </div>
+            <div
+              onClick={cclick}
+              className={` select-none border-2 active:scale-[0.9] border-black w-[25%] h-fit ${
+                allclaim.includes("c")
+                  ? "cursor-not-allowed brightness-50 blur-[4px]"
+                  : "cursor-pointer brightness-100 blur-[0px]"
+              }`}
+            >
+              <img
+                src={cimg}
+                className="w-full h-[60%] bg-slate-500 object-contain"
+                alt=""
+              />
+              <p className="text-[18px] w-fit text-center font-semibold capitalize rounded-lg">
+                corner
+              </p>
+            </div>
+            <div
+              onClick={sclick}
+              className={` select-none border-2 active:scale-[0.9] border-black w-[25%] h-fit ${
+                allclaim.includes("s")
+                  ? "cursor-not-allowed brightness-50 blur-[4px]"
+                  : "cursor-pointer brightness-100 blur-[0px]"
+              }`}
+            >
+              <img
+                src={simg}
+                className="w-full h-[60%] bg-slate-500 object-contain"
+                alt=""
+              />
+              <p className="text-[18px] w-fit text-center font-semibold capitalize rounded-lg">
+                star
+              </p>
+            </div>
+            <div
+              onClick={fullclick}
+              className={` select-none border-2 active:scale-[0.9] border-black w-[25%] h-fit ${
+                allclaim.includes("full")
+                  ? "cursor-not-allowed brightness-50 blur-[4px]"
+                  : "cursor-pointer brightness-100 blur-[0px]"
+              }`}
+            >
+              <img
+                src={fullimg}
+                className="w-full h-[60%] bg-slate-500 object-contain"
+                alt=""
+              />
+              <p className="text-[18px] w-fit text-center font-semibold capitalize rounded-lg">
+                full house
+              </p>
+            </div>
+            <div
+              onClick={one43click}
+              className={` select-none border-2 active:scale-[0.9] border-black w-[25%] h-fit ${
+                allclaim.includes("onefourthree")
+                  ? "cursor-not-allowed brightness-50 blur-[4px]"
+                  : "cursor-pointer brightness-100 blur-[0px]"
+              }`}
+            >
+              <img
+                src={one43img}
+                className="w-full h-[60%] bg-slate-500 object-contain"
+                alt=""
+              />
+              <p className="text-[18px] w-fit text-center font-semibold capitalize rounded-lg">
+                143
+              </p>
+            </div>
+            <div
+              onClick={pclick}
+              className={` select-none border-2 active:scale-[0.9] border-black w-[25%] h-fit ${
+                allclaim.includes("p")
+                  ? "cursor-not-allowed brightness-50 blur-[4px]"
+                  : "cursor-pointer brightness-100 blur-[0px]"
+              }`}
+            >
+              <img
+                src={pimg}
+                className="w-full h-[60%] bg-slate-500 object-contain"
+                alt=""
+              />
+              <p className="text-[18px] w-fit text-center font-semibold capitalize rounded-lg">
+                pyramid
+              </p>
+            </div>
           </div>
         </div>
-        {claims.length > 0 && (
+
+        {/* {claims.length > 0 && (
           <div className="mt-4 bg-green-200 p-2 max-h-[100px] overflow-auto rounded flex flex-col-reverse">
             {claims.map((claim, index) => (
               <li key={index}>{claim}</li>
             ))}
           </div>
-        )}
+        )} */}
       </div>
+
+      {/* message box */}
 
       <div
         className={`textpop ${message ? "block" : "hidden"} fixed flex ${
-          window.innerWidth < 500 ? "p-2 w-[450px] h-fit" : "p-4  w-fit h-fit"
-        } font-bold capitalize rounded-2xl text-black justify-center items-center bg-slate-200/80 top-[70%] left-[50%] -translate-x-[50%] -translate-y-[50%] m-4 text-center`}
+          window.innerWidth < 500
+            ? "pt-1 pb-1 pl-2 pr-2 w-[450px] h-fit"
+            : "pt-2 pb-2 pl-4 pr-4  w-fit h-fit"
+        } font-bold capitalize rounded-2xl text-black justify-center items-center bg-orange-100/80 top-[10%] left-[50%] -translate-x-[50%] -translate-y-[50%] m-4 text-center`}
       >
         {message}
       </div>
+
       {allclaim.includes("full") ? (
         <div className="p-4 bg-gray-400 rounded-xl fixed min-h-[50vh]">
           <h1 className="text-2xl font-bold mb-4 text-center">Leaderboard</h1>

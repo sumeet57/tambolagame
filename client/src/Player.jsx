@@ -1,24 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate, Outlet } from "react-router-dom";
-import socket from "./socket"; // Import centralized socket instance
+import socket from "./socket";
+import { useSearchParams } from "react-router-dom";
 
 const Player = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const searchTerm = searchParams.get("id");
 
   const [name, setName] = useState("");
   const [pass, setPass] = useState("");
-  // const [numbers, setNumbers] = useState([]);
   const [error, setError] = useState("");
 
-  const joinRoom = () => {
-    socket.emit("join-room", { room: pass, name: name });
+  const joinRoom = (room, playerName) => {
+    socket.emit("join-room", { room, name: playerName });
   };
 
   useEffect(() => {
     const handleRoomJoined = ({ room, name }) => {
       console.log("Joined room:", room);
-      setName(name); // Set the name state here
+      setName(name);
       navigate(`/player/room`, { state: { pname: name } });
     };
 
@@ -27,32 +29,29 @@ const Player = () => {
       setError(errorMessage);
     };
 
-    // const handleNumberAnnounced = (number) => {
-    //   console.log("Number announced:", number); // Log the received number
-    //   setNumbers((prevNumbers) => [number, ...prevNumbers]);
-    // };
-
     socket.on("room-joined", handleRoomJoined);
     socket.on("error", handleError);
-    // socket.on("number-announced", handleNumberAnnounced);
+
+    if (searchTerm) {
+      setPass(searchTerm);
+    }
 
     return () => {
       socket.off("room-joined", handleRoomJoined);
       socket.off("error", handleError);
-      // socket.off("number-announced", handleNumberAnnounced);
     };
-  }, [navigate]);
+  }, [navigate, searchTerm]);
 
-  const handleJoinClick = () => {
+  const handleJoinClick = (roomPassword) => {
     if (name.length < 3) {
       alert("Name should be 3 characters or more");
     } else {
-      joinRoom();
+      joinRoom(roomPassword || pass, name);
     }
   };
 
   return (
-    <div className="bg-black w-full h-screen flex justify-center items-center">
+    <div className="bg-teal-100 w-full h-screen flex justify-center items-center">
       {location.pathname === "/player" ? (
         <div className="cont flex justify-center items-center flex-col gap-5">
           <input
@@ -76,7 +75,7 @@ const Player = () => {
             }}
           />
           <button
-            onClick={handleJoinClick}
+            onClick={() => handleJoinClick()}
             className="text-base text-black uppercase pl-4 pr-4 p-2 bg-blue-300 font-bold rounded-lg"
           >
             Join Room

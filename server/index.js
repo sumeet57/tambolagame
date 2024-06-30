@@ -20,12 +20,6 @@ app.use(
   })
 );
 
-// Route handler for the root path
-// app.get("/", (req, res) => {
-//   res.send("Server is up and running!"); // Replace with your desired response
-// });
-
-// Initialize Socket.IO with the HTTP server
 const io = new Server(server, {
   cors: {
     origin: "https://tambolagame.onrender.com/",
@@ -100,7 +94,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("sm", (data) => {
-    console.log(data.message);
+    // console.log(data.message);
     io.emit("rm", data); // Broadcast the 'rm' event with the received data to all clients
   });
 
