@@ -2,6 +2,9 @@
 
 **Tambola** is an interactive, web-based version of the classic Indian game Tambola (also known as Bingo). The game allows players to join sessions, generate tickets, and mark numbers in real-time for a fun and engaging experience.
 
+
+###website will take upto 1/2 minutes to load, because i deploy the website for free.
+
 ## Features
 
 - **Real-Time Gameplay:** Multiple players can join and play simultaneously.
@@ -57,7 +60,7 @@
 
 ## Contributing
 
-# read CONTRIBUTING.md.
+### read CONTRIBUTING.md.
 
 Contributions are welcome! If you'd like to contribute to this project, please follow these steps:
 
